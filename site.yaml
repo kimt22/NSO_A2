@@ -1,13 +1,8 @@
 ---
-
-- name: Configure Servers
-  hosts: bastionNSO
-  become: yes
-  tasks:
-    - name: Retrieve IP addresses of instances
-      debug:
-        msg: "The IP address of {{ item }} is {{ hostvars[item].ansible_default_ipv4.address }}"
-        with_items: "{{ groups['webservers'] }}"
+- hosts: all
+  become: true
+  become_method: sudo
+  gather_facts: yes
 
 - name: Deploy HAproxy
   hosts: HAproxy
@@ -64,30 +59,4 @@
         mode: 0644
 
     - name: Start Flask app
-      shell: gunicorn -w 2 -D -b 0.0.0.0:8080 application2:app
-
-- name: Testing
-  hosts: HAproxy
-  become: yes
-  tasks:
-    - name: Testing the HAproxy load balancing 1st time.
-      shell: "curl localhost"
-      register: "output"
-      args:
-        warn: false
-    - debug: var=output.stdout_lines
-
-    - name: Testing the HAproxy load balancing 2nd time.
-      shell: "curl localhost"
-      register: "output"
-      args:
-        warn: false
-    - debug: var=output.stdout_lines
-
-    - name: Testing the HAproxy load balancing 3rd time.
-      shell: "curl localhost"
-      register: "output"
-      args:
-        warn: false
-    - debug: var=output.stdout_lines
-
+      shell: gunicorn -w 2 -D -b 0.0.0.0:5000 application2:app
