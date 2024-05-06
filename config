@@ -4,10 +4,12 @@ Host bastionNSO
   IdentityFile ~/.ssh/id_rsa
   StrictHostKeyChecking no
   PasswordAuthentication no
+  PubkeyAuthentication yes
   ForwardAgent yes
 
 Host *
   User ubuntu
   StrictHostKeyChecking no
   PasswordAuthentication no
+  PubkeyAuthentication yes
   ProxyJump bastionNSO
