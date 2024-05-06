@@ -1,5 +1,4 @@
 ---
-
 - hosts: all
   vars:
     ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q ubuntu@bastionNSO'
@@ -11,7 +10,7 @@
     - name: Retrieve IP addresses of instances
       debug:
         msg: "The IP address of {{ item }} is {{ hostvars[item].ansible_default_ipv4.address }}"
-      with_items: "{{ groups['webservers'] }}"
+        with_items: "{{ groups['webservers'] }}"
 
 - name: Deploy HAproxy
   hosts: HAproxy
