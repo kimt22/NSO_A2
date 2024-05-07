@@ -45,7 +45,7 @@ backend web-backend
         option forwardfor
         http-request set-header X-Forwarded-Port %[dst_port]
         http-request add-header X-Forwarded-Proto https if { ssl_fc }
-{% for dev_servers in groups['webservers'] %}
-    server  {{ dev_servers }} {{
-hostvars[dev_servers]["ansible_default_ipv4"]["address"]}}:5000
+{% for hosts in groups['webservers'] %}
+    server  {{ hosts }} {{
+hostvars[hosts]["ansible_default_ipv4"]["address"]}}:5000
 {% endfor %}
